@@ -1,0 +1,290 @@
+:root {
+  --bg0: #12061f;
+  --bg1: #2a0a45;
+  --bg2: #5b146e;
+  --pink: #e84aa8;
+  --gold: #f5d76e;
+  --gold2: #ffe9a0;
+  --text: #f7f2ff;
+  --muted: #c9b8d8;
+  --glass: rgba(18, 8, 32, 0.55);
+  --line: rgba(245, 215, 110, 0.35);
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  min-height: 100%;
+}
+
+body {
+  font-family: "Be Vietnam Pro", system-ui, sans-serif;
+  color: var(--text);
+  background: var(--bg0);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(1200px 700px at 50% -10%, rgba(232, 74, 168, 0.28), transparent 55%),
+    linear-gradient(165deg, #1a0528 0%, #3b0d55 42%, #6b1a78 78%, #1a0528 100%);
+}
+
+.bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  animation: float 9s ease-in-out infinite;
+}
+
+.bg-glow-a {
+  width: 280px; height: 280px;
+  left: -80px; bottom: 8%;
+  background: #2ec4ff;
+  animation-delay: 0s;
+}
+
+.bg-glow-b {
+  width: 320px; height: 320px;
+  right: -100px; top: 18%;
+  background: #e84aa8;
+  animation-delay: -3s;
+}
+
+.bg-glow-c {
+  width: 220px; height: 220px;
+  left: 35%; bottom: -60px;
+  background: #7b2cbf;
+  opacity: 0.4;
+  animation-delay: -5s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-18px) scale(1.05); }
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  width: min(420px, 100%);
+  margin: 0 auto;
+  padding: 36px 18px 48px;
+}
+
+.profile {
+  text-align: center;
+  animation: rise 0.7s ease both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.avatar-ring {
+  width: 118px;
+  height: 118px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  padding: 3px;
+  background: conic-gradient(from 200deg, #f5d76e, #e84aa8, #2ec4ff, #f5d76e);
+  box-shadow: 0 0 0 6px rgba(245, 215, 110, 0.12), var(--shadow);
+  animation: spinGlow 8s linear infinite;
+}
+
+@keyframes spinGlow {
+  to { filter: hue-rotate(25deg); }
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  border: 3px solid #12061f;
+}
+
+.name {
+  font-family: Orbitron, "Be Vietnam Pro", sans-serif;
+  font-size: clamp(1.35rem, 5vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--gold2);
+  text-shadow: 0 0 24px rgba(245, 215, 110, 0.35);
+}
+
+.handle {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.bio {
+  list-style: none;
+  margin: 18px auto 0;
+  max-width: 340px;
+  display: grid;
+  gap: 8px;
+  text-align: left;
+}
+
+.bio li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #ebe0f5;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 9px 11px;
+}
+
+.bio .dot {
+  width: 8px; height: 8px; margin-top: 5px; flex: 0 0 auto;
+  border-radius: 50%;
+  background: #ff3b5c;
+  box-shadow: 0 0 10px #ff3b5c;
+}
+
+.bio .star, .bio .pin {
+  color: var(--gold);
+  flex: 0 0 auto;
+  line-height: 1.35;
+}
+
+.quick {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 22px 0 8px;
+  animation: rise 0.8s ease 0.08s both;
+}
+
+.q {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--gold2);
+  background: rgba(12, 4, 24, 0.65);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+.q:hover, .q:focus-visible {
+  transform: translateY(-3px) scale(1.04);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(245, 215, 110, 0.18), 0 12px 28px rgba(0, 0, 0, 0.35);
+  outline: none;
+}
+
+.links {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.link {
+  display: grid;
+  grid-template-columns: 44px 1fr 18px;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px 14px 12px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(28, 10, 48, 0.82), rgba(18, 6, 32, 0.72));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.18s ease, border-color 0.18s, box-shadow 0.18s;
+  animation: rise 0.75s ease both;
+}
+
+.link:nth-child(1) { animation-delay: 0.12s; }
+.link:nth-child(2) { animation-delay: 0.18s; }
+.link:nth-child(3) { animation-delay: 0.24s; }
+.link:nth-child(4) { animation-delay: 0.3s; }
+
+.link:hover, .link:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(245, 215, 110, 0.55);
+  box-shadow: 0 0 0 1px rgba(245, 215, 110, 0.2), 0 16px 40px rgba(232, 74, 168, 0.2);
+  outline: none;
+}
+
+.ico {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #12061f;
+}
+
+.ico-reg { background: linear-gradient(135deg, #f5d76e, #e8a838); }
+.ico-zalo { background: linear-gradient(135deg, #2f9bff, #0068ff); color: #fff; font-family: Orbitron, sans-serif; }
+.ico-tele { background: linear-gradient(135deg, #37aee2, #1e96c8); color: #fff; }
+.ico-group { background: linear-gradient(135deg, #e84aa8, #9b2dd0); color: #fff; }
+
+.txt {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.txt strong {
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.txt small {
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.chev {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.foot {
+  margin-top: 28px;
+  text-align: center;
+  animation: rise 0.9s ease 0.35s both;
+}
+
+.foot p {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: rgba(245, 215, 110, 0.7);
+  font-weight: 600;
+}
+
+@media (max-width: 380px) {
+  .wrap { padding-inline: 14px; }
+  .txt strong { font-size: 0.86rem; }
+}
