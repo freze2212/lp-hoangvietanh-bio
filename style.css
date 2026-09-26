@@ -114,12 +114,14 @@ body {
 }
 
 .name {
-  font-family: Orbitron, "Be Vietnam Pro", sans-serif;
-  font-size: clamp(1.35rem, 5vw, 1.65rem);
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: var(--gold2);
-  text-shadow: 0 0 24px rgba(245, 215, 110, 0.35);
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  color: #ffffff;
 }
 
 .handle {
