@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin · HOÀNG VIỆT ANH</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .admin {
+      position: relative;
+      z-index: 1;
+      width: min(420px, 100%);
+      margin: 0 auto;
+      padding: 48px 18px;
+    }
+    .admin h1 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .admin p { color: var(--muted); font-size: 0.9rem; margin-bottom: 18px; }
+    .admin label { display: block; font-size: 0.8rem; margin: 12px 0 6px; color: var(--gold2); }
+    .admin input {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,0.28);
+      color: #fff;
+      padding: 12px 14px;
+      font: inherit;
+    }
+    .admin button {
+      margin-top: 16px;
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 13px;
+      font: inherit;
+      font-weight: 700;
+      color: #1a0528;
+      background: linear-gradient(90deg, var(--gold), #fff1c2);
+      cursor: pointer;
+    }
+    .msg { margin-top: 14px; font-size: 0.88rem; }
+    .msg.ok { color: #8dffb0; }
+    .msg.err { color: #ff8aa0; }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <main class="admin">
+    <h1>Sửa link game</h1>
+    <p>Link đang chạy: <strong id="current">...</strong></p>
+    <form id="form">
+      <label for="password">Mật khẩu admin</label>
+      <input id="password" type="password" autocomplete="current-password" required />
+      <label for="game">Link game mới</label>
+      <input id="game" type="url" placeholder="https://..." required />
+      <button type="submit">Lưu link</button>
+    </form>
+    <div id="msg" class="msg"></div>
+  </main>
+  <script>
+    var current = document.getElementById("current");
+    var game = document.getElementById("game");
+    var msg = document.getElementById("msg");
+    var api = "https://tenmienbet.top/api/hva-link";
+    fetch(api).then(function (r) { return r.json(); }).then(function (d) {
+      if (!d || !d.game) return;
+      current.textContent = d.game;
+      game.value = d.game;
+    }).catch(function () {
+      current.textContent = "chưa đọc được";
+    });
+    document.getElementById("form").onsubmit = function (e) {
+      e.preventDefault();
+      msg.className = "msg";
+      msg.textContent = "Đang lưu...";
+      fetch(api, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          password: document.getElementById("password").value,
+          game: game.value.trim()
+        })
+      }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (!res.ok || !res.d.success) {
+            msg.className = "msg err";
+            msg.textContent = res.d.error || "Không lưu được";
+            return;
+          }
+          current.textContent = res.d.game;
+          msg.className = "msg ok";
+          msg.textContent = "Đã đổi link. Mở lại trang chủ để thấy nút mới.";
+        }).catch(function () {
+          msg.className = "msg err";
+          msg.textContent = "Lỗi kết nối";
+        });
+    };
+  </script>
+</body>
+</html>

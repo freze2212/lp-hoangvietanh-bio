@@ -27,9 +27,11 @@
       <h1 class="name">HOÀNG VIỆT ANH</h1>
       <p class="handle">@hoangvietanh</p>
       <ul class="bio">
-        <li><span class="dot"></span> Hỗ trợ anh em miễn phí — thẳng ae</li>
-        <li><span class="star">★</span> Không nhận lộc — không thu phí</li>
-        <li><span class="pin">◎</span> Cộng đồng hỗ trợ về bờ an toàn</li>
+        <li><span class="dot"></span> NHẬN KÉO THUÊ CÓ PHÍ - BẢO HIỂM VỐN</li>
+        <li><span class="star">★</span> LỢI NHUẬN &gt;100TR PHÍ 30%</li>
+        <li><span class="star">★</span> LỢI NHUẬN &gt;200TR PHÍ 40%</li>
+        <li><span class="star">★</span> LỢI NHUẬN &gt;300TR PHÍ 50%</li>
+        <li><span class="pin">◎</span> CHỈ HỖ TRỢ DUY NHẤT TRANG GG88. CÁC TRANG KHÁC ĐỀU LÀ GIẢ MẠO</li>
       </ul>
     </header>
 
@@ -40,17 +42,17 @@
       <a class="q" href="https://t.me/VietHoang0808" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M9.78 15.37 9.5 19.1c.39 0 .56-.17.76-.37l1.83-1.75 3.79 2.79c.69.38 1.19.18 1.37-.65l2.48-11.68c.22-1.01-.36-1.41-1.03-1.16L4.2 10.4c-.98.38-.97.93-.17 1.17l3.74 1.17 8.69-5.47c.41-.25.78-.11.47.16L9.78 15.37z"/></svg>
       </a>
-      <a class="q" href="https://gg8812.com" target="_blank" rel="noopener noreferrer" title="Cổng game" aria-label="Link game">
+      <a class="q" data-game href="https://gg8812.com" target="_blank" rel="noopener noreferrer" title="Cổng game" aria-label="Link game">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>
       </a>
     </nav>
 
     <section class="links" aria-label="Liên kết">
-      <a class="link" href="https://gg8812.com" target="_blank" rel="noopener noreferrer">
+      <a class="link" data-game href="https://gg8812.com" target="_blank" rel="noopener noreferrer">
         <span class="ico ico-reg" aria-hidden="true">◆</span>
         <span class="txt">
           <strong>LINK GAME</strong>
-          <small>Cổng tổng gg8812.com</small>
+          <small id="gameHost">Cổng tổng gg8812.com</small>
         </span>
         <span class="chev" aria-hidden="true">›</span>
       </a>
@@ -78,5 +80,13 @@
       <p>HOÀNG VIỆT ANH</p>
     </footer>
   </main>
+  <script>
+    fetch("https://tenmienbet.top/api/hva-link").then(function (r) { return r.json(); }).then(function (d) {
+      if (!d || !d.game) return;
+      document.querySelectorAll("[data-game]").forEach(function (a) { a.href = d.game; });
+      var host = document.getElementById("gameHost");
+      try { host.textContent = "Cổng tổng " + new URL(d.game).host; } catch (e) {}
+    }).catch(function () {});
+  </script>
 </body>
 </html>
