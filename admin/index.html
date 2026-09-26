@@ -10,17 +10,14 @@
     .admin {
       position: relative;
       z-index: 1;
-      width: min(420px, 100%);
+      width: min(480px, 100%);
       margin: 0 auto;
-      padding: 48px 18px;
+      padding: 36px 18px 64px;
     }
-    .admin h1 {
-      font-size: 1.25rem;
-      margin-bottom: 8px;
-    }
-    .admin p { color: var(--muted); font-size: 0.9rem; margin-bottom: 18px; }
-    .admin label { display: block; font-size: 0.8rem; margin: 12px 0 6px; color: var(--gold2); }
-    .admin input {
+    .admin h1 { font-size: 1.25rem; margin-bottom: 6px; }
+    .admin .lead { color: var(--muted); font-size: 0.88rem; margin-bottom: 16px; }
+    .admin label { display: block; font-size: 0.78rem; margin: 12px 0 6px; color: var(--gold2); }
+    .admin input, .admin textarea {
       width: 100%;
       border-radius: 12px;
       border: 1px solid var(--line);
@@ -29,8 +26,30 @@
       padding: 12px 14px;
       font: inherit;
     }
-    .admin button {
-      margin-top: 16px;
+    .admin textarea { min-height: 132px; resize: vertical; }
+    .preview {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #12061f;
+      display: block;
+      margin: 8px 0 4px;
+      background: #2a0a45;
+    }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .ghost {
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--gold2);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font: inherit;
+      cursor: pointer;
+    }
+    .admin button[type="submit"] {
+      margin-top: 18px;
       width: 100%;
       border: 0;
       border-radius: 12px;
@@ -49,40 +68,114 @@
 <body>
   <div class="bg" aria-hidden="true"></div>
   <main class="admin">
-    <h1>Sửa link game</h1>
-    <p>Link đang chạy: <strong id="current">...</strong></p>
+    <h1>Sửa trang bio</h1>
+    <p class="lead">Avatar, tên, dòng giới thiệu, Zalo, Telegram và link game. Lưu xong mở lại trang chủ.</p>
     <form id="form">
       <label for="password">Mật khẩu admin</label>
       <input id="password" type="password" autocomplete="current-password" required />
-      <label for="game">Link game mới</label>
-      <input id="game" type="url" placeholder="https://..." required />
-      <button type="submit">Lưu link</button>
+
+      <label>Avatar</label>
+      <img id="preview" class="preview" src="../avatar.png" alt="Avatar hiện tại" />
+      <input id="avatar" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+      <button class="ghost" id="resetAvatar" type="button">Dùng lại avatar gốc</button>
+
+      <label for="name">Tên</label>
+      <input id="name" required />
+      <label for="handle">Username</label>
+      <input id="handle" required />
+      <label for="bio">Dòng giới thiệu (mỗi dòng một ý)</label>
+      <textarea id="bio" required></textarea>
+      <label for="footer">Chữ cuối trang</label>
+      <input id="footer" />
+
+      <label for="gameTitle">Tiêu đề nút game</label>
+      <input id="gameTitle" />
+      <label for="game">Link game</label>
+      <input id="game" type="url" required />
+      <label for="gameNote">Dòng nhỏ dưới nút game (để trống sẽ hiện tên miền)</label>
+      <input id="gameNote" />
+
+      <label for="zaloTitle">Tiêu đề Zalo</label>
+      <input id="zaloTitle" />
+      <label for="zalo">Link Zalo</label>
+      <input id="zalo" type="url" required />
+      <label for="zaloNote">Dòng nhỏ Zalo</label>
+      <input id="zaloNote" />
+
+      <label for="teleTitle">Tiêu đề Telegram</label>
+      <input id="teleTitle" />
+      <label for="tele">Link Telegram</label>
+      <input id="tele" type="url" required />
+      <label for="teleNote">Dòng nhỏ Telegram</label>
+      <input id="teleNote" />
+
+      <button type="submit">Lưu trang</button>
     </form>
     <div id="msg" class="msg"></div>
   </main>
   <script>
-    var current = document.getElementById("current");
-    var game = document.getElementById("game");
-    var msg = document.getElementById("msg");
     var api = "https://tenmienbet.top/api/hva-link";
-    fetch(api).then(function (r) { return r.json(); }).then(function (d) {
-      if (!d || !d.game) return;
-      current.textContent = d.game;
-      game.value = d.game;
-    }).catch(function () {
-      current.textContent = "chưa đọc được";
+    var msg = document.getElementById("msg");
+    var preview = document.getElementById("preview");
+    var avatarReset = false;
+    var avatarData = "";
+    var fields = ["name", "handle", "bio", "footer", "gameTitle", "game", "gameNote", "zaloTitle", "zalo", "zaloNote", "teleTitle", "tele", "teleNote"];
+
+    function fill(d) {
+      fields.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el || d[id] == null) return;
+        el.value = id === "bio" && Array.isArray(d.bio) ? d.bio.join("\n") : d[id];
+      });
+      preview.src = d.avatarUrl || "../avatar.png";
+    }
+
+    fetch(api).then(function (r) { return r.json(); }).then(fill).catch(function () {
+      msg.className = "msg err";
+      msg.textContent = "Chưa đọc được nội dung đang chạy";
     });
+
+    document.getElementById("avatar").onchange = function () {
+      var file = this.files && this.files[0];
+      avatarData = "";
+      avatarReset = false;
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) {
+        msg.className = "msg err";
+        msg.textContent = "Ảnh tối đa 2MB";
+        this.value = "";
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = function () {
+        avatarData = String(reader.result || "");
+        preview.src = avatarData;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    document.getElementById("resetAvatar").onclick = function () {
+      avatarReset = true;
+      avatarData = "";
+      document.getElementById("avatar").value = "";
+      preview.src = "../avatar.png";
+    };
+
     document.getElementById("form").onsubmit = function (e) {
       e.preventDefault();
       msg.className = "msg";
       msg.textContent = "Đang lưu...";
+      var body = { password: document.getElementById("password").value };
+      fields.forEach(function (id) {
+        var value = document.getElementById(id).value.trim();
+        body[id] = id === "bio" ? value.split(/\r?\n/) : value;
+      });
+      if (avatarReset) body.avatarReset = true;
+      else if (avatarData) body.avatar = avatarData;
       fetch(api, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          password: document.getElementById("password").value,
-          game: game.value.trim()
-        })
+        body: JSON.stringify(body)
       }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
         .then(function (res) {
           if (!res.ok || !res.d.success) {
@@ -90,9 +183,11 @@
             msg.textContent = res.d.error || "Không lưu được";
             return;
           }
-          current.textContent = res.d.game;
+          avatarData = "";
+          avatarReset = false;
+          fill(res.d);
           msg.className = "msg ok";
-          msg.textContent = "Đã đổi link. Mở lại trang chủ để thấy nút mới.";
+          msg.textContent = "Đã lưu. Mở lại trang chủ để thấy nội dung mới.";
         }).catch(function () {
           msg.className = "msg err";
           msg.textContent = "Lỗi kết nối";
