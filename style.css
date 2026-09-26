@@ -114,14 +114,12 @@ body {
 }
 
 .name {
-  font-family: "Times New Roman", Times, serif;
-  font-weight: 700;
-  font-style: normal;
-  font-size: 15px;
-  line-height: 1;
-  letter-spacing: 0;
-  text-align: center;
-  color: #ffffff;
+  font-family: Orbitron, "Be Vietnam Pro", sans-serif;
+  font-size: clamp(1.35rem, 5vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--gold2);
+  text-shadow: 0 0 24px rgba(245, 215, 110, 0.35);
 }
 
 .handle {
@@ -138,36 +136,24 @@ body {
   max-width: 380px;
   display: grid;
   gap: 8px;
-  text-align: center;
+  text-align: left;
 }
 
 .bio li {
   display: flex;
   gap: 8px;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: #ebe0f5;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 9px 11px;
 }
 
-.bio .line {
-  font-family: "Times New Roman", Times, serif;
-  font-weight: 700;
-  font-style: normal;
-  font-size: 15px;
-  line-height: 1;
-  letter-spacing: 0;
-  text-align: center;
-  background-image: linear-gradient(180deg, #53B4FA 0%, #118FFF 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 .bio .dot {
-  width: 8px; height: 8px; flex: 0 0 auto;
+  width: 8px; height: 8px; margin-top: 5px; flex: 0 0 auto;
   border-radius: 50%;
   background: #ff3b5c;
   box-shadow: 0 0 10px #ff3b5c;
