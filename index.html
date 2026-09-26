@@ -27,11 +27,11 @@
       <h1 id="name" class="name">HOÀNG VIỆT ANH</h1>
       <p id="handle" class="handle">@hoangvietanh</p>
       <ul id="bio" class="bio">
-        <li><span class="dot"></span> NHẬN KÉO THUÊ CÓ PHÍ - BẢO HIỂM VỐN</li>
-        <li><span class="star">★</span> LỢI NHUẬN &gt;100TR PHÍ 30%</li>
-        <li><span class="star">★</span> LỢI NHUẬN &gt;200TR PHÍ 40%</li>
-        <li><span class="star">★</span> LỢI NHUẬN &gt;300TR PHÍ 50%</li>
-        <li><span class="pin">◎</span> CHỈ HỖ TRỢ DUY NHẤT TRANG GG88. CÁC TRANG KHÁC ĐỀU LÀ GIẢ MẠO</li>
+        <li><span class="dot"></span><span class="line">NHẬN KÉO THUÊ CÓ PHÍ - BẢO HIỂM VỐN</span></li>
+        <li><span class="star">★</span><span class="line">LỢI NHUẬN &gt;100TR PHÍ 30%</span></li>
+        <li><span class="star">★</span><span class="line">LỢI NHUẬN &gt;200TR PHÍ 40%</span></li>
+        <li><span class="star">★</span><span class="line">LỢI NHUẬN &gt;300TR PHÍ 50%</span></li>
+        <li><span class="pin">◎</span><span class="line">CHỈ HỖ TRỢ DUY NHẤT TRANG GG88. CÁC TRANG KHÁC ĐỀU LÀ GIẢ MẠO</span></li>
       </ul>
     </header>
 
@@ -115,8 +115,11 @@
           if (i === 0) mark.className = "dot";
           else if (i === d.bio.length - 1) { mark.className = "pin"; mark.textContent = "◎"; }
           else { mark.className = "star"; mark.textContent = "★"; }
+          var text = document.createElement("span");
+          text.className = "line";
+          text.textContent = line;
           li.appendChild(mark);
-          li.appendChild(document.createTextNode(" " + line));
+          li.appendChild(text);
           ul.appendChild(li);
         });
       }
